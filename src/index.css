@@ -2,32 +2,32 @@
 
 html {
   font-size: 16px;
-  height: 100%;
 }
 
-/* Never set overflow:hidden on html/body — it breaks Lenis scroll context */
-body {
-  overflow-x: clip;
-  height: 100%;
+html.lenis, html.lenis body {
+  height: auto;
 }
-
-a { color: inherit; text-decoration: none; }
-button { background: none; border: none; font: inherit; padding: 0; cursor: pointer; }
-ul, ol { list-style: none; }
-img { display: block; max-width: 100%; }
-
-/* ── Lenis classes ── */
-html.lenis { height: auto; }
 
 .lenis.lenis-smooth {
-  scroll-behavior: auto;
+  scroll-behavior: auto !important;
 }
+
 .lenis.lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
 }
+
 .lenis.lenis-stopped {
   overflow: hidden;
 }
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
+
+body {
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+a { color: inherit; text-decoration: none; }
+button { background: none; border: none; font: inherit; cursor: pointer; }
+ul, ol { list-style: none; }
+img { display: block; max-width: 100%; }
+input, textarea { font: inherit; }

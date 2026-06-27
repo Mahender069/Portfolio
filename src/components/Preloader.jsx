@@ -1,156 +1,176 @@
-import { useEffect, useRef, useState } from 'react'
-import { motion, animate } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 
-const CELL_SIZE = 140
-const DURATION  = 5500
-
-// only 2 random pauses, feel natural not mechanical
-const PAUSES = [
-  { at: 0.35, ms: 600 },
-  { at: 0.72, ms: 420 },
-]
-
-function OdometerDigit({ value }) {
-  const yRef   = useRef(0)
-  const divRef = useRef(null)
-
-  useEffect(() => {
-    const from = yRef.current
-    const to   = -(value * CELL_SIZE)
-
-    const ctrl = animate(from, to, {
-      duration: 0.5,
-      ease: [0.16, 1, 0.3, 1],
-      onUpdate: (v) => {
-        yRef.current = v
-        if (divRef.current) {
-          divRef.current.style.transform = `translateY(${v}px)`
-        }
-      },
-    })
-
-    return () => ctrl.stop()
-  }, [value])
-
-  return (
-    <div style={{ height: CELL_SIZE, overflow: 'hidden', position: 'relative' }}>
-      <div
-        ref={divRef}
-        style={{ display: 'flex', flexDirection: 'column', willChange: 'transform' }}
-      >
-        {Array.from({ length: 10 }, (_, i) => (
-          <div
-            key={i}
-            style={{
-              height: CELL_SIZE,
-              width: CELL_SIZE * 0.65,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: "'Space Grotesk', sans-serif",
-              fontWeight: 300,
-              fontSize: CELL_SIZE * 0.88,
-              lineHeight: 1,
-              letterSpacing: '-0.05em',
-              color: '#EBEBEB',
-              userSelect: 'none',
-              fontVariantNumeric: 'tabular-nums',
-            }}
-          >
-            {i}
-          </div>
-        ))}
-      </div>
-    </div>
-  )
+function pad(n) {
+  return String(Math.round(n)).padStart(3, '0')
 }
 
+function lerp(a, b, t) {
+  return a + (b - a) * t
+}
+
+const EASE = {
+  linear: (t) => t,
+  out3: (t) => 1 - (1 - t) ** 3,
+  out4: (t) => 1 - (1 - t) ** 4,
+  in2: (t) => t * t,
+  inOut2: (t) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2),
+  inOut3: (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2),
+}
+
+const COUNT = [
+  [0, 0, 0.35, 'linear'],
+  [0, 2, 0.1, 'out3'],
+  [2, 8, 0.18, 'out3'],
+  [8, 15, 0.2, 'in2'],
+  [15, 18, 0.08, 'out3'],
+  [18, 32, 0.25, 'in2'],
+  [32, 40, 0.18, 'out3'],
+  [40, 42, 0.08, 'linear'],
+  [42, 60, 0.28, 'inOut2'],
+  [60, 68, 0.15, 'out3'],
+  [68, 70, 0.1, 'linear'],
+  [70, 85, 0.25, 'inOut3'],
+  [85, 90, 0.15, 'out3'],
+  [90, 90, 0.1, 'linear'],
+  [90, 96, 0.2, 'inOut2'],
+  [96, 100, 0.3, 'out4'],
+]
+
+const TOTAL_DUR = COUNT.reduce((s, c) => s + c[2], 0)
+
 export default function Preloader({ onDone }) {
-  const [count,         setCount]   = useState(0)
-  const [exit,          setExit]    = useState(false)
-  const rafRef                      = useRef(null)
-  const startRef                    = useRef(null)
-  const pausedUntilRef              = useRef(0)
-  const pauseTotalRef               = useRef(0)
-  const triggeredPauses             = useRef(new Set())
+  const wrapRef = useRef(null)
+  const numRef = useRef(null)
+  const val = useRef(0)
 
   useEffect(() => {
-    const tick = (now) => {
-      if (!startRef.current) startRef.current = now
+    let cancelled = false
+    let raf
+    let lastTime = 0
+    let ctx = null
 
-      // hold during pause window
-      if (now < pausedUntilRef.current) {
-        rafRef.current = requestAnimationFrame(tick)
-        return
-      }
+    async function run() {
+      const { gsap } = await import('gsap')
+      if (cancelled) return
 
-      const elapsed = now - startRef.current - pauseTotalRef.current
-      const t       = Math.min(elapsed / DURATION, 1)
-      const eased   = t === 1 ? 1 : 1 - Math.pow(2, -10 * t)
-      const next    = Math.floor(eased * 99)
+      const wrap = wrapRef.current
+      const num = numRef.current
+      if (!wrap || !num) return
 
-      setCount(next)
+      ctx = gsap.context(() => {
+        gsap.set(wrap, { opacity: 1 })
+        gsap.set(num, { scale: 1, opacity: 1 })
 
-      // trigger pauses at defined progress points
-      for (const p of PAUSES) {
-        if (!triggeredPauses.current.has(p.at) && eased >= p.at) {
-          triggeredPauses.current.add(p.at)
-          pausedUntilRef.current = now + p.ms
-          pauseTotalRef.current += p.ms
-          rafRef.current = requestAnimationFrame(tick)
-          return
+        let seg = 0
+        let elapsed = 0
+
+        const tick = (now) => {
+          if (cancelled) return
+          if (!lastTime) lastTime = now
+          const dt = (now - lastTime) / 1000
+          lastTime = now
+          elapsed += dt
+
+          if (seg < COUNT.length) {
+            const [from, to, dur, easeName] = COUNT[seg]
+            const t = Math.min(elapsed / dur, 1)
+            val.current = lerp(from, to, EASE[easeName](t))
+            if (t >= 1) { seg++; elapsed = 0 }
+          }
+
+          num.textContent = pad(val.current)
+
+          if (seg < COUNT.length || val.current < 100) {
+            raf = requestAnimationFrame(tick)
+          }
         }
-      }
+        raf = requestAnimationFrame(tick)
 
-      if (t < 1) {
-        rafRef.current = requestAnimationFrame(tick)
-      } else {
-        setCount(99)
-        setTimeout(() => setExit(true), 400)
-        setTimeout(() => onDone?.(), 1300)
-      }
+        const exit = gsap.timeline({
+          delay: TOTAL_DUR + 0.15,
+          onComplete: () => onDone?.(),
+        })
+
+        exit.to(num, {
+          scale: 20,
+          duration: 1.0,
+          ease: 'power3.inOut',
+        }, 0.2)
+
+        exit.to(num, {
+          opacity: 0,
+          duration: 0.7,
+          ease: 'power2.in',
+        }, 0.3)
+
+        exit.to(wrap, {
+          opacity: 0,
+          duration: 1.0,
+          ease: 'power2.inOut',
+        }, 0.4)
+      }, wrapRef)
     }
 
-    rafRef.current = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(rafRef.current)
+    run()
+
+    return () => {
+      cancelled = true
+      if (raf) cancelAnimationFrame(raf)
+      ctx?.revert()
+    }
   }, [onDone])
 
-  const tens  = Math.floor(count / 10)
-  const units = count % 10
-
   return (
-    <motion.div
+    <div
+      ref={wrapRef}
       style={{
-        position: 'fixed', inset: 0,
-        background: '#0D0D0D',
-        zIndex: 8000,
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center',
-        gap: '2.4rem',
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+          background: '#08080D',
+        overflow: 'hidden',
       }}
-      animate={{ opacity: exit ? 0 : 1 }}
-      transition={{ duration: 0.9, ease: [0.77, 0, 0.18, 1] }}
     >
-      <div style={{ display: 'flex', gap: 4, alignItems: 'flex-start' }}>
-        <OdometerDigit value={tens}  />
-        <OdometerDigit value={units} />
-      </div>
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'radial-gradient(ellipse at 50% 50%, rgba(139,92,246,0.04) 0%, transparent 55%)',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'radial-gradient(circle, rgba(240,237,230,0.06) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+          opacity: 0.4,
+          pointerEvents: 'none',
+        }}
+      />
 
-      <div style={{
-        width: 120, height: 1,
-        background: '#1F1F1F',
-        position: 'relative', overflow: 'hidden',
-      }}>
-        <motion.div
-          style={{
-            position: 'absolute', inset: 0,
-            background: '#EBEBEB',
-            transformOrigin: 'left',
-          }}
-          animate={{ scaleX: count / 99 }}
-          transition={{ duration: 0.08, ease: 'linear' }}
-        />
-      </div>
-    </motion.div>
+      <span
+        ref={numRef}
+        style={{
+          position: 'relative',
+          zIndex: 1,
+          fontFamily: "'DM Sans', -apple-system, sans-serif",
+          fontWeight: 700,
+          fontSize: 'clamp(4rem, 15vw, 14rem)',
+          lineHeight: 1,
+          letterSpacing: '-0.03em',
+          color: '#F0EDE6',
+          fontVariantNumeric: 'tabular-nums',
+          userSelect: 'none',
+          willChange: 'transform',
+        }}
+      >
+        000
+      </span>
+    </div>
   )
 }
