@@ -1,0 +1,37 @@
+export const profile = {
+  firstName: 'Mahender',
+  lastName: '',
+  name: 'Mahender',
+  initials: 'M',
+  subtitle: 'Backend Developer & AI Engineer',
+  status: { label: 'Open to new opportunities', online: true },
+  roles: [
+    'Backend Engineer',
+    'AI & ML Engineer',
+    'Performance Engineer',
+    'UI Motion Designer',
+  ],
+  tagline:
+    'I craft scalable backend systems and build intelligent AI-powered solutions that ship.',
+  location: 'Hyderabad, India',
+  availability: 'Available for work',
+  email: 'tnmahender@gmail.com',
+  github: 'https://github.com/Mahender069',
+  githubUser: 'Mahender069',
+  linkedin: 'https://linkedin.com/in/mahenderdev',
+  resumeUrl: '/resume.pdf',
+  navigation: [
+    { id: 'hero', label: 'Home' },
+    { id: 'experience', label: 'Experience' },
+    { id: 'work', label: 'Projects' },
+    { id: 'skills', label: 'Skills' },
+    { id: 'contact', label: 'Contact' },
+  ],
+  social: [
+    { label: 'GitHub', href: 'https://github.com/Mahender069' },
+    { label: 'LinkedIn', href: 'https://linkedin.com/in/mahenderdev' },
+    { label: 'Email', href: 'mailto:tnmahender@gmail.com' },
+    { label: 'X', href: 'https://x.com/Mahender_36' },
+    { label: 'Resume', href: '/resume.pdf' },
+  ],
+}

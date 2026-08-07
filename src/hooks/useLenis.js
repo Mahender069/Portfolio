@@ -1,55 +1,29 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
+import Lenis from 'lenis'
+import { gsap, ScrollTrigger } from '../utils/animations'
+import { setLenis } from '../utils/scroll'
 
-export function useLenis() {
-  const lenisRef = useRef(null)
-
+export default function useLenis() {
   useEffect(() => {
-    let destroyed = false
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    async function setup() {
-      const [lenisModule, gsapModule, scrollTriggerModule] = await Promise.all([
-        import('@studio-freight/lenis'),
-        import('gsap'),
-        import('gsap/ScrollTrigger'),
-      ])
+    const lenis = new Lenis({
+      duration: 1.25,
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.4,
+    })
+    setLenis(lenis)
+    lenis.on('scroll', ScrollTrigger.update)
 
-      if (destroyed) return
-
-      const Lenis = lenisModule.default
-      const { gsap } = gsapModule
-      const { ScrollTrigger } = scrollTriggerModule
-
-      gsap.registerPlugin(ScrollTrigger)
-
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-      })
-
-      lenisRef.current = lenis
-
-      lenis.on('scroll', ScrollTrigger.update)
-
-      function raf(time) {
-        if (destroyed) return
-        lenis.raf(time)
-        requestAnimationFrame(raf)
-      }
-
-      requestAnimationFrame(raf)
-    }
-
-    setup()
+    const raf = (time) => lenis.raf(time * 1000)
+    gsap.ticker.add(raf)
+    gsap.ticker.lagSmoothing(0)
 
     return () => {
-      destroyed = true
-      if (lenisRef.current) {
-        lenisRef.current.destroy()
-        lenisRef.current = null
-      }
+      gsap.ticker.remove(raf)
+      lenis.destroy()
+      setLenis(null)
     }
   }, [])
-
-  return lenisRef
 }
