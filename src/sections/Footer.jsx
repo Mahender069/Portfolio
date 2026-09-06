@@ -20,7 +20,7 @@ export default function Footer() {
       />
 
       <div className="relative animate-fade-up">
-        <h2 className="font-display text-[24px] font-bold leading-[1.2] tracking-[-0.01em] text-neutral-900 sm:text-[28px]">
+        <h2 className="font-sans text-[24px] font-bold leading-[1.2] text-neutral-900 sm:text-[28px]">
           Let&apos;s Build Something Together.
         </h2>
       </div>
@@ -73,7 +73,7 @@ export default function Footer() {
         </span>
       </p>
 
-      <div className="mt-4 flex flex-wrap justify-center gap-4 text-[10px] font-mono uppercase tracking-widest text-neutral-500 animate-fade-up stagger-3">
+      <div className="mt-4 flex flex-wrap justify-center gap-4 text-[10px] font-sans uppercase text-neutral-500 animate-fade-up stagger-3">
         {profile.navigation.map((item) => (
           <button
             key={item.id}

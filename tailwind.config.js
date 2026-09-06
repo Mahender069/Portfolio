@@ -11,9 +11,8 @@ export default {
         cyan: '#22D3EE',
       },
       fontFamily: {
-        display: ['"Space Grotesk Variable"', 'system-ui', 'sans-serif'],
-        sans: ['"Inter Variable"', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono Variable"', 'ui-monospace', 'monospace'],
+        sans: ['"Geist"', 'sans-serif'],
+        mono: ['"Geist Mono"', 'ui-monospace', 'monospace'],
       },
       keyframes: {
         'blink-caret': {

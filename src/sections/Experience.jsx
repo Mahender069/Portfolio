@@ -4,7 +4,7 @@ import { experiences } from '../constants/data'
 export default function Experience() {
   return (
     <section id="experience" className="w-full">
-      <h2 className="font-display text-[28px] font-bold text-neutral-900">Experience</h2>
+      <h2 className="font-sans text-[28px] font-bold text-neutral-900">Experience</h2>
       <div className="mt-5 space-y-[24px]">
         {experiences.map((e) => (
           <div
@@ -13,7 +13,7 @@ export default function Experience() {
           >
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <span className="font-display text-[16px] font-bold text-neutral-900">
+                <span className="font-sans text-[16px] font-bold text-neutral-900">
                   {e.company}
                 </span>
                 {e.current && (
@@ -34,7 +34,7 @@ export default function Experience() {
       </div>
       <button
         type="button"
-        className="mt-7 inline-flex h-[34px] items-center gap-2 rounded-[10px] border border-neutral-200 bg-white px-[12px] font-mono text-[10px] uppercase tracking-widest text-neutral-500 transition-colors duration-200 hover:bg-neutral-50 hover:text-neutral-900"
+        className="mt-7 inline-flex h-[34px] items-center gap-2 rounded-[10px] border border-neutral-200 bg-white px-[12px] font-sans text-[10px] uppercase text-neutral-500 transition-colors duration-200 hover:bg-neutral-50 hover:text-neutral-900"
       >
         Show all work experiences
         <HiOutlineArrowUpRight className="h-2.5 w-2.5" />

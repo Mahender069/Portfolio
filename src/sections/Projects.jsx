@@ -5,7 +5,7 @@ import TechStack from '../components/TechStack'
 export default function Projects() {
   return (
     <section id="work" className="w-full">
-      <h2 className="font-display text-[28px] font-bold text-neutral-900">Projects</h2>
+      <h2 className="font-sans text-[28px] font-bold text-neutral-900">Projects</h2>
       <div className="mt-5 space-y-[30px]">
         {projects.map((p) => (
           <a
@@ -20,7 +20,7 @@ export default function Projects() {
               <div>
                 <div className="flex items-center gap-3">
                   <span className="font-mono text-[10px] text-neutral-400 sm:text-[10px]">{p.index}</span>
-                  <h3 className="font-display text-[18px] font-bold text-neutral-900 group-hover/card:text-electric sm:text-[18px]">
+                  <h3 className="font-sans text-[18px] font-bold text-neutral-900 group-hover/card:text-electric sm:text-[18px]">
                     {p.title}
                   </h3>
                 </div>

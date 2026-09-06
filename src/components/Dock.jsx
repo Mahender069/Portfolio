@@ -45,8 +45,8 @@ export default function Dock({ onOpenPalette }) {
     document.body.style.overflow = open ? 'hidden' : ''
   }, [open])
 
- const itemClass = (id) =>
-      `font-mono text-[11px] font-medium text-neutral-600 transition-colors duration-200 hover:text-neutral-900 ${
+  const itemClass = (id) =>
+      `font-sans text-[11px] font-medium text-neutral-600 transition-colors duration-200 hover:text-neutral-900 ${
         active === id ? 'text-neutral-900' : ''
       }`
 
@@ -133,7 +133,7 @@ export default function Dock({ onOpenPalette }) {
                     scrollToId(item.id)
                     setOpen(false)
                   }}
-                  className={`font-mono text-base uppercase tracking-widest transition-colors ${
+                  className={`font-sans text-base uppercase transition-colors ${
                     active === item.id
                       ? 'text-neutral-900'
                       : 'text-neutral-400 hover:text-neutral-800'

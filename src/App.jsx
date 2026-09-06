@@ -39,7 +39,7 @@ export default function App() {
       <CustomCursor />
       <Dock onOpenPalette={() => setPaletteOpen(true)} />
       <MainLayout>
-         <main className="flex-1 w-full flex flex-col gap-12">
+        <main className="flex-1 w-full flex flex-col gap-12">
           <Hero />
           <Experience />
           <Projects />

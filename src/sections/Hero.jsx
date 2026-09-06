@@ -25,11 +25,11 @@ export default function Hero() {
   return (
     <section id="hero" className="w-full">
       <div className="flex items-center gap-6 sm:gap-8">
-        <div className="grid h-[56px] w-[56px] place-items-center rounded-full bg-neutral-100 font-display text-sm font-bold text-neutral-900 sm:h-[72px] sm:w-[72px] sm:text-base">
+        <div className="grid h-[56px] w-[56px] place-items-center rounded-full bg-neutral-100 font-sans text-sm font-bold text-neutral-900 sm:h-[72px] sm:w-[72px] sm:text-base">
           {profile.initials}
         </div>
         <div>
-          <h1 className="font-display text-[22px] font-bold leading-[1.2] tracking-[-0.02em] text-neutral-900 sm:text-[28px]">{profile.name}</h1>
+          <h1 className="text-[22px] font-bold leading-[1.2] text-neutral-900 sm:text-[28px]">{profile.name}</h1>
           <p className="mt-1.5 font-mono text-[13px] font-medium text-neutral-500 sm:text-[13px]">{profile.subtitle}</p>
         </div>
       </div>

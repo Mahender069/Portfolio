@@ -17,6 +17,15 @@ export const projects = [
     stack: ['Node.js', 'Express.js', 'MongoDB', 'RabbitMQ', 'React.js', 'Tailwind CSS', 'shadcn/ui', 'Cloudinary'],
     links: { github: 'https://github.com/Mahender069/BlogApplication' },
   },
+  {
+    id: 'multi-agent-research-assistant',
+    index: '03',
+    year: '2025',
+    title: 'Multi-Agent Research Assistant',
+    tagline: 'Built a Python-based multi-agent research assistant using LangChain and Mistral to search, scrape, synthesize, and critique web research into structured reports.',
+    stack: ['Python', 'LangChain', 'Mistral'],
+    links: { github: 'https://github.com/Mahender069/multi-agent-research-assistant' },
+  },
 ]
 
 export const experiences = [
@@ -32,9 +41,10 @@ export const experiences = [
 ]
 
 export const skillCategories = [
-  { name: 'Languages', skills: ['JavaScript', 'TypeScript', 'Python', 'HTML', 'CSS'] },
-  { name: 'Backend', skills: ['Node.js', 'Express.js', 'RabbitMQ', 'Redis'] },
-  { name: 'Frontend', skills: ['React.js', 'Tailwind CSS'] },
+  { name: 'Languages', skills: ['JavaScript', 'TypeScript', 'Python'] },
+  { name: 'Backend', skills: ['Node.js', 'Express.js', 'FastAPI', 'RabbitMQ', 'Redis'] },
+  { name: 'AI / ML', skills: ['LangChain', 'LangGraph'] },
+  { name: 'Frontend', skills: ['React.js', 'Tailwind CSS', 'HTML', 'CSS'] },
   { name: 'Databases & ORM', skills: ['PostgreSQL', 'MongoDB', 'Prisma'] },
-  { name: 'Tools', skills: ['Git', 'Postman', 'Swagger', 'Railway', 'VS Code'] },
+  { name: 'Tools', skills: ['Git', 'Postman', 'Swagger', 'Railway', 'VS Code', 'Neovim', 'Cursor', 'Zed'] },
 ]
