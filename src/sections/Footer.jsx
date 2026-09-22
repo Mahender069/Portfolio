@@ -1,4 +1,4 @@
-import useVisitorCount from '../hooks/useVisitorCount'
+import VisitorCounter from '../components/VisitorCounter'
 import { FaEnvelope, FaGithub, FaHeart, FaLinkedinIn } from 'react-icons/fa6'
 import { FaXTwitter } from 'react-icons/fa6'
 import { HiOutlineArrowUpRight } from 'react-icons/hi2'
@@ -7,9 +7,6 @@ import { scrollToId, scrollToTop } from '../utils/scroll'
 
 export default function Footer() {
   const year = new Date().getFullYear()
-  const { count, loading, error } = useVisitorCount()
-
-  const showVisitor = !error && (loading || count !== null)
 
   return (
     <>
@@ -101,19 +98,7 @@ export default function Footer() {
         </button>
       </footer>
 
-      <section className="relative mx-auto w-full max-w-[800px] px-4 pb-16 text-center sm:px-6 sm:pb-20">
-        {showVisitor && (
-          <p className="font-sans font-semibold tracking-[-0.04em] leading-[0.95] text-[var(--foreground)] animate-fade-up">
-            {loading && <span>YOU ARE VISITOR NO. —</span>}
-            {!loading && count !== null && (
-              <span>
-                YOU ARE VISITOR NO.{' '}
-                <span className="font-bold">{count.toLocaleString()}</span>
-              </span>
-            )}
-          </p>
-        )}
-      </section>
+      <VisitorCounter />
     </>
   )
 }
