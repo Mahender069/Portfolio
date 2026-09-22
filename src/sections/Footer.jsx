@@ -20,6 +20,8 @@ export default function Footer() {
           }}
         />
 
+        <VisitorCounter />
+
         <div className="relative animate-fade-up">
           <h2 className="font-sans text-[24px] font-bold leading-[1.2] text-neutral-900 sm:text-[28px]">
             Let&apos;s Build Something Together.
@@ -97,8 +99,6 @@ export default function Footer() {
           <HiOutlineArrowUpRight className="h-4 w-4 rotate-45 text-neutral-600 transition-all duration-300 group-hover:text-neutral-900 group-hover:rotate-[495deg]" />
         </button>
       </footer>
-
-      <VisitorCounter />
     </>
   )
 }

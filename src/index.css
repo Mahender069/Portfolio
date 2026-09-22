@@ -3,12 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .font-display {
-    font-family: 'Space Grotesk', sans-serif;
-  }
-}
-
 :root {
   --background: #F5F7FA;
   --surface: #FFFFFF;
