@@ -16,10 +16,23 @@ export default function Hero() {
   const [copied, setCopied] = useState(false)
 
   const copyEmail = () => {
-    navigator.clipboard.writeText(profile.email).then(() => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(profile.email).then(() => {
+        setCopied(true)
+        setTimeout(() => setCopied(false), 1600)
+      })
+    } else {
+      const ta = document.createElement('textarea')
+      ta.value = profile.email
+      ta.style.position = 'fixed'
+      ta.style.opacity = '0'
+      document.body.appendChild(ta)
+      ta.select()
+      document.execCommand('copy')
+      document.body.removeChild(ta)
       setCopied(true)
       setTimeout(() => setCopied(false), 1600)
-    })
+    }
   }
 
   return (

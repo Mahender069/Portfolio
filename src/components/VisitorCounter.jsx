@@ -13,9 +13,9 @@ export default function VisitorCounter() {
   const displayNum = !isLoading ? pad(count) : '—'
 
   return (
-    <div className="border-t border-b border-[var(--border)] py-12 sm:py-16">
+    <div className="py-8 px-4 text-left !text-left">
       <p className="font-sans font-medium tracking-[-0.04em] leading-[0.95] text-[var(--foreground)]">
-        YOU ARE VISITOR{' '}
+        YOU ARE VISITOR :{' '}
         <span className="font-mono font-normal">{displayNum}</span>
       </p>
     </div>
