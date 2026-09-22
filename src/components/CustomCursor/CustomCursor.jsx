@@ -1,158 +1,170 @@
 ﻿import { useRef, useEffect, useState } from 'react'
 
-const INTERACTIVE_SELECTORS =
-  'a, button, [role="button"], input, select, textarea'
+const INTERACTIVE_SELECTORS = 'a, button, [role="button"], input, select, textarea'
+const BREAKPOINT = 768
 
 export default function CustomCursor() {
-  const ringRef = useRef(null)
+  const xLineRef = useRef(null)
+  const yLineRef = useRef(null)
+  const coordRef = useRef(null)
   const [enabled, setEnabled] = useState(false)
+  const enabledRef = useRef(false)
+  const labelWidthRef = useRef(60)
+  const labelHeightRef = useRef(18)
+  const isInteractingRef = useRef(false)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const prefersReduced = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches
-    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
-    const isSmallScreen = window.innerWidth < 768
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const smallScreen = window.matchMedia(`(max-width: ${BREAKPOINT - 1}px)`)
+    const coarsePointer = window.matchMedia('(pointer: coarse)')
 
-    if (prefersReduced || isTouch || isSmallScreen) return
+    function checkConditions() {
+      const shouldEnable =
+        !prefersReduced.matches &&
+        !coarsePointer.matches &&
+        !smallScreen.matches
+      enabledRef.current = shouldEnable
+      setEnabled(shouldEnable)
+    }
 
-    setEnabled(true)
+    checkConditions()
+
+    prefersReduced.addEventListener('change', checkConditions)
+    smallScreen.addEventListener('change', checkConditions)
+    coarsePointer.addEventListener('change', checkConditions)
+
+    return () => {
+      prefersReduced.removeEventListener('change', checkConditions)
+      smallScreen.removeEventListener('change', checkConditions)
+      coarsePointer.removeEventListener('change', checkConditions)
+    }
   }, [])
 
   useEffect(() => {
     if (!enabled) return
 
-    const ring = ringRef.current
-    if (!ring) return
+    const xLine = xLineRef.current
+    const yLine = yLineRef.current
+    const coord = coordRef.current
+    if (!xLine || !yLine || !coord) return
 
-    let targetX = 0
-    let targetY = 0
-    let currentX = 0
-    let currentY = 0
-    let velX = 0
-    let velY = 0
-    let prevX = 0
-    let prevY = 0
-    let targetScale = 1
-    let currentScale = 1
-    let isInteractive = false
-    let isPressed = false
+    let x = 0
+    let y = 0
     let rafId = 0
+    let pending = false
 
-    function initPosition(e) {
-      currentX = targetX = e.clientX
-      currentY = targetY = e.clientY
-      prevX = targetX
-      prevY = targetY
-    }
-
-    function getBaseScale() {
-      if (isPressed) return 0.7
-      if (isInteractive) return 1.5
-      return 1
-    }
-
-    function applyTransform() {
-      const speed = Math.sqrt(velX * velX + velY * velY)
-      const stretchFactor = Math.min(speed / 20, 0.3)
-
-      if (speed > 1 && !isPressed) {
-        const angle = Math.atan2(velY, velX)
-        const scaleX = currentScale * (1 + Math.cos(angle) * stretchFactor)
-        const scaleY = currentScale * (1 + Math.sin(angle) * stretchFactor)
-        ring.style.transform = `translate(-50%, -50%) scaleX(${scaleX}) scaleY(${scaleY})`
-      } else {
-        ring.style.transform = `translate(-50%, -50%) scale(${currentScale})`
+    function updateLines() {
+      if (!enabledRef.current) {
+        rafId = requestAnimationFrame(updateLines)
+        return
       }
+
+      xLine.style.transform = `translateY(${y}px)`
+      yLine.style.transform = `translateX(${x}px)`
+
+      const lineColor = isInteractingRef.current ? '#A09C95' : '#303030'
+      const coordColor = isInteractingRef.current ? '#A09C95' : '#77736D'
+      xLine.style.backgroundColor = lineColor
+      yLine.style.backgroundColor = lineColor
+      coord.style.color = coordColor
+
+      const vw = window.innerWidth
+      const vh = window.innerHeight
+      const lw = labelWidthRef.current
+      const lh = labelHeightRef.current
+
+      const clampedX = Math.min(x + 14, vw - lw - 8)
+      const clampedY = Math.min(y + 14, vh - lh - 8)
+
+      coord.style.left = `${clampedX}px`
+      coord.style.top = `${clampedY}px`
+      coord.textContent = `x: ${Math.round(x)}\ny: ${Math.round(y)}`
     }
 
     function handleMouseMove(e) {
-      targetX = e.clientX
-      targetY = e.clientY
-      velX = targetX - prevX
-      velY = targetY - prevY
-      prevX = targetX
-      prevY = targetY
+      x = e.clientX
+      y = e.clientY
 
-      const wasInteractive = isInteractive
-      isInteractive = !!e.target?.closest?.(INTERACTIVE_SELECTORS)
-      if (wasInteractive !== isInteractive) {
-        targetScale = getBaseScale()
+      if (coordRef.current) {
+        labelWidthRef.current = coordRef.current.offsetWidth || 60
+        labelHeightRef.current = coordRef.current.offsetHeight || 18
+      }
+
+      isInteractingRef.current = !!e.target?.closest?.(INTERACTIVE_SELECTORS)
+
+      if (!pending) {
+        pending = true
+        rafId = requestAnimationFrame(() => {
+          updateLines()
+          pending = false
+        })
       }
     }
 
-    function handleMouseDown() {
-      isPressed = true
-      targetScale = getBaseScale()
-    }
+    document.addEventListener('mousemove', handleMouseMove, { passive: true })
 
-    function handleMouseUp() {
-      isPressed = false
-      targetScale = getBaseScale()
-    }
-
-    function handleMouseLeave() {
-      isInteractive = false
-      isPressed = false
-      targetScale = getBaseScale()
-    }
-
-    function animate() {
-      const posSpring = 0.25
-      currentX += (targetX - currentX) * posSpring
-      currentY += (targetY - currentY) * posSpring
-
-      const scaleSpring = 0.2
-      currentScale += (targetScale - currentScale) * scaleSpring
-
-      ring.style.left = `${currentX}px`
-      ring.style.top = `${currentY}px`
-
-      applyTransform()
-
-      velX *= 0.8
-      velY *= 0.8
-
-      rafId = requestAnimationFrame(animate)
-    }
-
-    document.addEventListener('mousemove', initPosition, { once: true })
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true })
-    window.addEventListener('mousedown', handleMouseDown)
-    window.addEventListener('mouseup', handleMouseUp)
-    window.addEventListener('mouseleave', handleMouseLeave)
-
-    rafId = requestAnimationFrame(animate)
+    rafId = requestAnimationFrame(updateLines)
 
     return () => {
-      document.removeEventListener('mousemove', initPosition)
-      window.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('mousedown', handleMouseDown)
-      window.removeEventListener('mouseup', handleMouseUp)
-      window.removeEventListener('mouseleave', handleMouseLeave)
+      document.removeEventListener('mousemove', handleMouseMove)
       cancelAnimationFrame(rafId)
     }
   }, [enabled])
 
   return (
-    <div
-      ref={ringRef}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '16px',
-        height: '16px',
-        pointerEvents: 'none',
-        zIndex: 9998,
-        borderRadius: '50%',
-        border: '1px solid #1f2937',
-        opacity: enabled ? 1 : 0,
-        transition: 'opacity 0.2s',
-      }}
-    />
+    <>
+      <div
+        ref={xLineRef}
+        style={{
+          position: 'fixed',
+          left: 0,
+          right: 0,
+          top: 0,
+          height: '1px',
+          backgroundColor: '#303030',
+          pointerEvents: 'none',
+          zIndex: 9998,
+          transform: 'translateY(0px)',
+          willChange: 'transform',
+          opacity: enabled ? 1 : 0,
+          transition: 'opacity 0.15s ease',
+        }}
+      />
+      <div
+        ref={yLineRef}
+        style={{
+          position: 'fixed',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          width: '1px',
+          backgroundColor: '#303030',
+          pointerEvents: 'none',
+          zIndex: 9998,
+          transform: 'translateX(0px)',
+          willChange: 'transform',
+          opacity: enabled ? 1 : 0,
+          transition: 'opacity 0.15s ease',
+        }}
+      />
+      <div
+        ref={coordRef}
+        style={{
+          position: 'fixed',
+          pointerEvents: 'none',
+          zIndex: 9998,
+          fontFamily: "'Geist Mono', monospace",
+          fontSize: '10px',
+          lineHeight: '14px',
+          color: '#77736D',
+          letterSpacing: '0.02em',
+          whiteSpace: 'pre',
+          opacity: enabled ? 1 : 0,
+          transition: 'opacity 0.15s ease',
+        }}
+      />
+    </>
   )
 }

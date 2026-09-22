@@ -17,8 +17,8 @@ export default function Experience() {
                   {e.company}
                 </span>
                 {e.current && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 font-mono text-[10px] font-semibold text-emerald-700">
-                    <span className="h-1 w-1 rounded-full bg-emerald-400" />
+                  <span className="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2 py-0.5 font-mono text-[10px] font-semibold text-neutral-600">
+                    <span className="h-1 w-1 rounded-full bg-neutral-400" />
                     Working
                   </span>
                 )}

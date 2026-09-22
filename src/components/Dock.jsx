@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiOutlineCommandLine, HiOutlineXMark } from 'react-icons/hi2'
+import { FiSun, FiMoon } from 'react-icons/fi'
 import { profile } from '../constants/portfolio'
 import { scrollToId } from '../utils/scroll'
 
-export default function Dock({ onOpenPalette }) {
+export default function Dock({ onOpenPalette, onToggleTheme, theme }) {
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState(profile.navigation[0].id)
   const [open, setOpen] = useState(false)
@@ -73,7 +74,7 @@ export default function Dock({ onOpenPalette }) {
           {open ? (
             <HiOutlineXMark className="h-4 w-4" />
           ) : (
-            <HiOutlineCommandLine className="h-4 w-4 text-electric" />
+            <HiOutlineCommandLine className="h-4 w-4 text-[var(--accent)]" />
           )}
         </button>
 
@@ -93,16 +94,31 @@ export default function Dock({ onOpenPalette }) {
           ))}
         </nav>
 
+<motion.button
+           initial={{ opacity: 0, y: -8 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ duration: 0.3, delay: 0.05 }}
+           onClick={onOpenPalette}
+            className="flex items-center gap-1.5 rounded-full border border-neutral-200 bg-neutral-50 px-2 py-1 font-mono text-[10px] text-neutral-500 hover:border-neutral-300 hover:bg-neutral-100 sm:px-2.5 sm:py-1.5 sm:text-[11px]"
+           aria-label="Open command palette"
+         >
+           <HiOutlineCommandLine className="h-3.5 w-3.5 text-[var(--accent)]" />
+           <span>⌘K</span>
+         </motion.button>
+
         <motion.button
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.05 }}
-          onClick={onOpenPalette}
-           className="flex items-center gap-1.5 rounded-full border border-neutral-200 bg-neutral-50 px-2 py-1 font-mono text-[10px] text-neutral-500 hover:border-neutral-300 hover:bg-neutral-100 sm:px-2.5 sm:py-1.5 sm:text-[11px]"
-          aria-label="Open command palette"
+          transition={{ duration: 0.3, delay: 0.08 }}
+          onClick={onToggleTheme}
+          className="flex items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 p-1.5 text-neutral-500 hover:border-neutral-300 hover:bg-neutral-100"
+          aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
         >
-          <HiOutlineCommandLine className="h-3.5 w-3.5 text-electric" />
-          <span>⌘K</span>
+          {theme === 'dark' ? (
+            <FiMoon className="h-3.5 w-3.5" />
+          ) : (
+            <FiSun className="h-3.5 w-3.5" />
+          )}
         </motion.button>
       </div>
 

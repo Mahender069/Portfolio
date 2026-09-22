@@ -37,7 +37,7 @@ export default function Hero() {
       <p className="mt-3 max-w-xl text-[13px] font-normal text-neutral-600">{profile.tagline}</p>
 
       <div className="mt-3 flex items-center gap-2 font-mono text-[10px] text-neutral-500 sm:gap-2.5 sm:text-[11px]">
-        <span className={`h-1.5 w-1.5 rounded-full ${profile.status.online ? 'bg-emerald-400' : 'bg-neutral-400'}`} />
+        <span className={`h-1.5 w-1.5 rounded-full ${profile.status.online ? 'bg-neutral-500' : 'bg-neutral-600'}`} />
         <span>{profile.status.label}</span>
       </div>
 
@@ -56,7 +56,7 @@ export default function Hero() {
           aria-label="Copy email"
         >
           {copied ? (
-            <FaCheck className="h-2.5 w-2.5 text-electric" />
+            <FaCheck className="h-2.5 w-2.5 text-[var(--accent)]" />
           ) : (
             <FaCopy className="h-2.5 w-2.5 text-neutral-500" />
           )}

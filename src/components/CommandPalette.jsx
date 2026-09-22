@@ -148,7 +148,7 @@ export default function CommandPalette({ open, onOpenChange }) {
                       i === index ? 'text-neutral-900' : 'text-neutral-500'
                     )}
                   >
-                    <item.Icon className="h-4.5 w-4.5 text-electric" />
+                    <item.Icon className="h-4.5 w-4.5 text-[var(--accent)]" />
                     <span className="flex-1 text-sm">{item.label}</span>
                      <span className="font-mono text-[11px] uppercase tracking-widest text-neutral-400">{item.hint}</span>
                   </button>

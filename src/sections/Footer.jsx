@@ -9,12 +9,11 @@ export default function Footer() {
 
   return (
     <footer id="contact" className="relative mx-auto w-full max-w-[800px] border-neutral-200 px-4 py-8 text-center sm:px-6 sm:py-10">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(147,197,253,0.15),transparent_60%)]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(48,48,48,0.06),transparent_60%)]" />
       <div
         className="absolute inset-0 -z-20 opacity-[0.15]"
         style={{
-          backgroundImage: `radial(circle(circle at var(--tw-bg-opacity), 1px, 1px),
-            radial(circle(circle at var(--tw-bg-opacity), 1px, 1px))`,
+          backgroundImage: `radial(circle at var(--tw-bg-opacity), 1px, 1px)`,
           backgroundSize: '24px 24px',
         }}
       />
@@ -69,7 +68,7 @@ export default function Footer() {
       <p className="font-mono text-[9px] uppercase tracking-widest text-neutral-500 animate-fade-up stagger-3">
         &copy; {year} {profile.name} •{' '}
         <span className="inline-flex items-center gap-1">
-          <FaHeart className="h-2.5 w-2.5 text-red-400 animate-bounce-once" /> Built with love
+          <FaHeart className="h-2.5 w-2.5 text-neutral-500 animate-bounce-once" /> Built with love
         </span>
       </p>
 

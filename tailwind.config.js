@@ -6,9 +6,9 @@ export default {
       colors: {
         bg: '#F5F7FA',
         surface: '#FFFFFF',
-        electric: '#4D7CFF',
-        violet: '#8B5CF6',
-        cyan: '#22D3EE',
+        ink: '#E8E5DF',
+        muted: '#77736D',
+        graphite: '#303030',
       },
       fontFamily: {
         sans: ['"Geist"', 'sans-serif'],

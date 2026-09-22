@@ -20,7 +20,7 @@ export default function Projects() {
               <div>
                 <div className="flex items-center gap-3">
                   <span className="font-mono text-[10px] text-neutral-400 sm:text-[10px]">{p.index}</span>
-                  <h3 className="font-sans text-[18px] font-bold text-neutral-900 group-hover/card:text-electric sm:text-[18px]">
+                  <h3 className="font-sans text-[18px] font-bold text-neutral-900 group-hover/card:text-neutral-900 sm:text-[18px]">
                     {p.title}
                   </h3>
                 </div>
