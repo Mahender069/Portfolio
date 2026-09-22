@@ -1,3 +1,4 @@
+import useVisitorCount from '../hooks/useVisitorCount'
 import { FaEnvelope, FaGithub, FaHeart, FaLinkedinIn } from 'react-icons/fa6'
 import { FaXTwitter } from 'react-icons/fa6'
 import { HiOutlineArrowUpRight } from 'react-icons/hi2'
@@ -6,6 +7,9 @@ import { scrollToId, scrollToTop } from '../utils/scroll'
 
 export default function Footer() {
   const year = new Date().getFullYear()
+  const { count, loading } = useVisitorCount()
+
+  const displayCount = loading ? null : (count || 0).toLocaleString()
 
   return (
     <footer id="contact" className="relative mx-auto w-full max-w-[800px] border-neutral-200 px-4 py-8 text-center sm:px-6 sm:py-10">
@@ -73,6 +77,10 @@ export default function Footer() {
       </p>
 
       <div className="mt-4 flex flex-wrap justify-center gap-4 text-[10px] font-sans uppercase text-neutral-500 animate-fade-up stagger-3">
+        <span>VISITORS</span>
+        <span className="font-mono text-neutral-400">
+          {displayCount ?? '—'}
+        </span>
         {profile.navigation.map((item) => (
           <button
             key={item.id}

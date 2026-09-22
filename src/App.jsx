@@ -42,6 +42,18 @@ export default function App() {
   }, [])
 
   useEffect(() => {
+    const handleVisibilityChange = () => {
+      document.title =
+        document.visibilityState === 'hidden' ? "I'm waiting for you..." : 'Mahender'
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    handleVisibilityChange()
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [])
+
+  useEffect(() => {
     const onClick = (e) => {
       if (e.target && e.target.closest('a, button, [role="button"], input, select, textarea')) {
         playWaterDrop()
