@@ -3,7 +3,7 @@ import { FaCheck, FaCopy, FaGithub, FaLinkedinIn, FaRegEnvelope } from 'react-ic
 import { FaXTwitter } from 'react-icons/fa6'
 import { HiOutlineArrowUpRight } from 'react-icons/hi2'
 import { profile } from '../constants/portfolio'
-import AsciiName from '../components/AsciiName'
+import AsciiScene from '../components/AsciiScene'
 
 const SOCIAL_ICONS = {
   GitHub: FaGithub,
@@ -13,7 +13,7 @@ const SOCIAL_ICONS = {
   Resume: HiOutlineArrowUpRight,
 }
 
-export default function Hero({ asciiEnabled = true }) {
+export default function Hero() {
   const [copied, setCopied] = useState(false)
 
   const copyEmail = () => {
@@ -38,17 +38,14 @@ export default function Hero({ asciiEnabled = true }) {
 
   return (
     <section id="hero" className="w-full">
-      <AsciiName
-        enabled={asciiEnabled}
-        className="h-[40vh] min-h-[240px] sm:h-[52vh] sm:min-h-[340px]"
-      />
+      <AsciiScene className="h-[40vh] min-h-[240px] sm:h-[52vh] sm:min-h-[340px]" />
 
       <div className="mt-6 flex items-center gap-6 sm:gap-8">
         <div className="grid h-[56px] w-[56px] place-items-center rounded-full bg-neutral-100 font-sans text-sm font-bold text-neutral-900 sm:h-[72px] sm:w-[72px] sm:text-base">
           {profile.initials}
         </div>
         <div>
-          <p className="text-[22px] font-bold leading-[1.2] text-neutral-900 sm:text-[28px]">{profile.name}</p>
+          <h1 className="text-[22px] font-bold leading-[1.2] text-neutral-900 sm:text-[28px]">{profile.name}</h1>
           <p className="mt-1.5 font-mono text-[13px] font-medium text-neutral-500 sm:text-[13px]">{profile.subtitle}</p>
         </div>
       </div>
