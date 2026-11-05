@@ -20,7 +20,7 @@ export default function Footer() {
         />
 
         <div className="relative animate-fade-up">
-          <h2 className="font-sans text-[24px] font-bold leading-[1.2] text-neutral-900 sm:text-[28px]">
+          <h2 className="font-sans text-title font-bold text-neutral-900">
             Let&apos;s Build Something Together.
           </h2>
         </div>
@@ -66,24 +66,24 @@ export default function Footer() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-300 to-transparent" />
         </div>
 
-        <p className="font-mono text-[9px] uppercase tracking-widest text-neutral-500 animate-fade-up stagger-3">
+        <p className="font-mono text-meta uppercase tracking-widest text-metadata animate-fade-up stagger-3">
           &copy; {year} {profile.name} •{' '}
           <span className="inline-flex items-center gap-1">
             <FaHeart className="h-2.5 w-2.5 text-neutral-500 animate-bounce-once" /> Built with love
           </span>
         </p>
 
-        <p className="mt-3 font-mono text-[11px] text-neutral-500 opacity-40">
+        <p className="mt-3 font-mono text-meta text-metadata">
           build {__COMMIT__} · {__BUILT__.slice(0, 10)}
         </p>
 
-        <div className="mt-4 flex flex-wrap justify-center gap-4 text-[10px] font-sans uppercase text-neutral-500 animate-fade-up stagger-3">
+        <div className="mt-4 flex flex-wrap justify-center gap-4 font-mono text-meta uppercase text-metadata animate-fade-up stagger-3">
           {profile.navigation.map((item) => (
             <button
               key={item.id}
               type="button"
               onClick={() => scrollToId(item.id)}
-              className="text-neutral-500 transition-all duration-200 hover:text-neutral-900 hover:translate-y-[-1px]"
+              className="text-metadata transition-all duration-200 hover:text-neutral-900 hover:translate-y-[-1px]"
               aria-label={item.label}
             >
               {item.label}

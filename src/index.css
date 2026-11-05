@@ -10,6 +10,7 @@
   --foreground: #0a0a0a;
   --foreground-secondary: #3a3a3a;
   --foreground-muted: #6b7280;
+  --meta: #525252;
   --border: #e5e7eb;
   --border-subtle: #d1d5db;
   --hover: #f0f0f0;
@@ -23,6 +24,7 @@
   --foreground: #E8E5DF;
   --foreground-secondary: #A09C95;
   --foreground-muted: #77736D;
+  --meta: #A09C95;
   --border: #303030;
   --border-subtle: #242424;
   --hover: #222222;
@@ -112,6 +114,7 @@ body {
   .stagger-2 { animation-delay: 0.2s; }
   .stagger-3 { animation-delay: 0.3s; }
   .stagger-4 { animation-delay: 0.4s; }
+  .text-metadata { color: var(--meta); }
 }
 
 /* Dark theme overrides */

@@ -47,8 +47,8 @@ export default function Dock({ onToggleTheme, theme }) {
   }, [open])
 
   const itemClass = (id) =>
-      `font-sans text-[11px] font-medium text-neutral-600 transition-colors duration-200 hover:text-neutral-900 ${
-        active === id ? 'text-neutral-900' : ''
+      `font-mono text-meta font-medium transition-colors duration-200 ${
+        active === id ? 'text-neutral-900' : 'text-metadata hover:text-neutral-900'
       }`
 
   return (
@@ -137,10 +137,10 @@ export default function Dock({ onToggleTheme, theme }) {
                     scrollToId(item.id)
                     setOpen(false)
                   }}
-                  className={`font-sans text-base uppercase transition-colors ${
+                  className={`font-mono text-item uppercase transition-colors ${
                     active === item.id
                       ? 'text-neutral-900'
-                      : 'text-neutral-400 hover:text-neutral-800'
+                      : 'text-metadata hover:text-neutral-800'
                   }`}
                   aria-label={`Go to ${item.label}`}
                 >

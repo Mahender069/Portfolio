@@ -5,8 +5,8 @@ import TechStack from '../components/TechStack'
 export default function Projects() {
   return (
     <section id="work" className="w-full">
-      <h2 className="font-sans text-[28px] font-bold text-neutral-900">
-        <span className="mr-2 font-mono text-[11px] font-normal text-neutral-400">02 /</span>
+      <h2 className="font-sans text-title font-bold text-neutral-900">
+        <span className="mr-2 font-mono text-meta font-normal text-metadata">02 /</span>
         Projects
       </h2>
       <div className="mt-5 space-y-[30px]">
@@ -22,16 +22,16 @@ export default function Projects() {
             <div className="flex flex-col justify-between gap-2 sm:gap-3 py-2 sm:py-2.5 transition-colors hover:bg-neutral-50 sm:flex-row sm:items-center">
               <div>
                 <div className="flex items-center gap-3">
-                  <span className="font-mono text-[10px] text-neutral-400 sm:text-[10px]">{p.index}</span>
-                  <h3 className="font-sans text-[18px] font-bold text-neutral-900 group-hover/card:text-neutral-900 sm:text-[18px]">
+                  <span className="font-mono text-meta text-metadata">{p.index}</span>
+                  <h3 className="font-sans text-item font-bold text-neutral-900 group-hover/card:text-neutral-900">
                     {p.title}
                   </h3>
                 </div>
-                <p className="mt-1 max-w-xl text-[12px] font-normal text-neutral-600">{p.tagline}</p>
+                <p className="mt-1 max-w-xl font-sans text-body font-normal text-neutral-600">{p.tagline}</p>
                 <TechStack items={p.stack} />
               </div>
               <div className="mt-2 flex items-center gap-3 sm:mt-0 sm:text-right">
-                <span className="font-mono text-[10px] text-neutral-400 sm:text-[10px]">{p.year}</span>
+                <span className="font-mono text-meta text-metadata">{p.year}</span>
                 {p.links.github && (
                   <span className="text-neutral-400 group-hover/card:text-neutral-900">
                     <HiOutlineArrowUpRight className="h-3 w-3" />

@@ -42,22 +42,22 @@ export default function Hero() {
           {profile.initials}
         </div>
         <div>
-          <h1 className="text-[22px] font-bold leading-[1.2] text-neutral-900 sm:text-[28px]">{profile.name}</h1>
-          <p className="mt-1.5 font-mono text-[13px] font-medium text-neutral-500 sm:text-[13px]">{profile.subtitle}</p>
+          <h1 className="font-sans text-[22px] font-bold leading-[1.2] text-neutral-900 sm:text-title">{profile.name}</h1>
+          <p className="mt-1.5 font-mono text-meta font-medium text-metadata">{profile.subtitle}</p>
         </div>
       </div>
 
-      <p className="mt-3 max-w-xl text-[13px] font-normal text-neutral-600">{profile.tagline}</p>
+      <p className="mt-3 max-w-xl font-sans text-body font-normal text-neutral-600">{profile.tagline}</p>
 
-      <div className="mt-3 flex items-center gap-2 font-mono text-[10px] text-neutral-500 sm:gap-2.5 sm:text-[11px]">
+      <div className="mt-3 flex items-center gap-2 font-mono text-meta text-metadata sm:gap-2.5">
         <span className={`h-1.5 w-1.5 rounded-full ${profile.status.online ? 'bg-neutral-500' : 'bg-neutral-600'}`} />
         <span>{profile.status.label}</span>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-2 text-[10px] text-neutral-600 sm:mt-6 sm:gap-3 sm:text-[11px]">
+      <div className="mt-4 flex flex-wrap items-center gap-2 text-body text-neutral-600 sm:mt-6 sm:gap-3">
         <a
           href={`mailto:${profile.email}`}
-          className="text-neutral-700 hover:text-neutral-900 sm:text-[11px]"
+          className="font-sans text-body text-neutral-700 hover:text-neutral-900"
           aria-label={profile.email}
         >
           {profile.email}
@@ -76,7 +76,7 @@ export default function Hero() {
         </button>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-2.5 text-neutral-500 sm:mt-6 sm:gap-4">
+      <div className="mt-4 flex flex-wrap items-center gap-2.5 text-metadata sm:mt-6 sm:gap-4">
         {profile.social.map((s) => {
           const Icon = SOCIAL_ICONS[s.label]
           if (!Icon) return null
@@ -88,10 +88,10 @@ export default function Hero() {
               target={isExternal ? '_blank' : undefined}
               rel={isExternal ? 'noreferrer' : undefined}
               aria-label={s.label}
-              className="flex items-center gap-1 text-neutral-500 hover:text-neutral-900 transition-colors duration-200"
+              className="flex items-center gap-1 text-metadata hover:text-neutral-900 transition-colors duration-200"
             >
               <Icon className="h-[14px] w-[14px]" />
-              <span className="font-mono text-[10px] uppercase sm:text-[10px]">{s.label}</span>
+              <span className="font-mono text-meta uppercase">{s.label}</span>
             </a>
           )
         })}

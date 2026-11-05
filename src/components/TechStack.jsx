@@ -86,7 +86,7 @@ export default function TechStack({ items }) {
             className="group inline-flex items-center gap-1 rounded-[10px] border border-neutral-200 bg-neutral-50 px-2.5 py-1 hover:border-neutral-300 transition-colors duration-200"
           >
             <Icon className="h-4 w-4 shrink-0" />
-            <span className="h-4 max-w-0 overflow-hidden font-mono text-[11px] uppercase text-neutral-600 opacity-0 transition-all duration-200 group-hover:max-w-[6rem] group-hover:opacity-100">
+            <span className="h-4 max-w-0 overflow-hidden font-mono text-meta uppercase text-metadata opacity-0 transition-all duration-200 group-hover:max-w-[6rem] group-hover:opacity-100">
               {t}
             </span>
           </button>
