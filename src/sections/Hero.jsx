@@ -3,7 +3,6 @@ import { FaCheck, FaCopy, FaGithub, FaLinkedinIn, FaRegEnvelope } from 'react-ic
 import { FaXTwitter } from 'react-icons/fa6'
 import { HiOutlineArrowUpRight } from 'react-icons/hi2'
 import { profile } from '../constants/portfolio'
-import AsciiScene from '../components/AsciiScene'
 
 const SOCIAL_ICONS = {
   GitHub: FaGithub,
@@ -38,9 +37,7 @@ export default function Hero() {
 
   return (
     <section id="hero" className="w-full">
-      <AsciiScene className="h-[40vh] min-h-[240px] sm:h-[52vh] sm:min-h-[340px]" />
-
-      <div className="mt-6 flex items-center gap-6 sm:gap-8">
+      <div className="flex items-center gap-6 sm:gap-8">
         <div className="grid h-[56px] w-[56px] place-items-center rounded-full bg-neutral-100 font-sans text-sm font-bold text-neutral-900 sm:h-[72px] sm:w-[72px] sm:text-base">
           {profile.initials}
         </div>
