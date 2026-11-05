@@ -37,6 +37,17 @@ export default function Hero() {
 
   return (
     <section id="hero" className="w-full">
+      <img
+        src="/anime.jpg"
+        alt="Street scene with utility poles, traffic lights, and clouds against a blue sky"
+        width={2048}
+        height={1366}
+        loading="eager"
+        decoding="async"
+        draggable={false}
+        className="mb-12 block aspect-[16/9] w-full select-none object-cover object-[center_40%] grayscale transition-[filter] duration-[400ms] ease-[ease] hover:grayscale-0 motion-reduce:transition-none [@media(hover:none)]:grayscale-0 md:aspect-[21/9]"
+      />
+
       <div className="flex items-center gap-6 sm:gap-8">
         <div className="grid h-[56px] w-[56px] place-items-center rounded-full bg-neutral-100 font-sans text-sm font-bold text-neutral-900 sm:h-[72px] sm:w-[72px] sm:text-base">
           {profile.initials}
