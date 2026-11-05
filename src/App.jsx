@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { flushSync } from 'react-dom'
 import Dock from './components/Dock'
-import CustomCursor from './components/CustomCursor'
 import MainLayout from './layouts/MainLayout'
 import { playWaterDrop } from './utils/clickSound'
 import Hero from './sections/Hero'
@@ -105,7 +104,6 @@ export default function App() {
 
   return (
     <>
-      <CustomCursor />
       <Dock onToggleTheme={toggleTheme} theme={theme} />
       <MainLayout>
         <main className="flex-1 w-full flex flex-col gap-12">

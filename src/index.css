@@ -92,6 +92,44 @@ body {
   }
 }
 
+@media (hover: hover) and (pointer: fine) {
+  html {
+    cursor: url("/cursors/default.svg") 2 2, auto;
+  }
+
+  a,
+  button,
+  [role="button"],
+  summary,
+  label[for],
+  select,
+  [data-cursor] {
+    cursor: url("/cursors/link.svg") 16 16, pointer;
+  }
+
+  a *,
+  button *,
+  [role="button"] *,
+  summary *,
+  label[for] *,
+  select *,
+  [data-cursor] * {
+    cursor: inherit;
+  }
+
+  input,
+  textarea,
+  [contenteditable=""],
+  [contenteditable="true"] {
+    cursor: text;
+  }
+
+  :disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+}
+
 .glass {
   border: 1px solid var(--border, #e5e7eb);
   background-color: rgba(255, 255, 255, 0.55);
