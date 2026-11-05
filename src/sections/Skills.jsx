@@ -4,7 +4,10 @@ import TechStack from '../components/TechStack'
 export default function Skills() {
   return (
     <section id="skills" className="w-full">
-      <h2 className="font-sans text-[28px] font-bold text-neutral-900">Skills</h2>
+      <h2 className="font-sans text-[28px] font-bold text-neutral-900">
+        <span className="mr-2 font-mono text-[11px] font-normal text-neutral-400">03 /</span>
+        Skills
+      </h2>
       <div className="mt-5 space-y-6 sm:mt-6 sm:space-y-7">
         {skillCategories.map((c) => (
           <div key={c.name}>

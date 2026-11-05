@@ -5,7 +5,10 @@ import TechStack from '../components/TechStack'
 export default function Projects() {
   return (
     <section id="work" className="w-full">
-      <h2 className="font-sans text-[28px] font-bold text-neutral-900">Projects</h2>
+      <h2 className="font-sans text-[28px] font-bold text-neutral-900">
+        <span className="mr-2 font-mono text-[11px] font-normal text-neutral-400">02 /</span>
+        Projects
+      </h2>
       <div className="mt-5 space-y-[30px]">
         {projects.map((p) => (
           <a

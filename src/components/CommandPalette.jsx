@@ -13,6 +13,7 @@ import {
   HiOutlineCodeBracket,
   HiOutlineEnvelope,
   HiOutlineMagnifyingGlass,
+  HiOutlineMoon,
   HiOutlineUser,
 } from 'react-icons/hi2'
 import { profile } from '../constants/portfolio'
@@ -26,18 +27,29 @@ const SECTION_ICONS = {
   contact: HiOutlineEnvelope,
 }
 
-export default function CommandPalette({ open, onOpenChange }) {
+export default function CommandPalette({
+  open,
+  onOpenChange,
+  asciiEnabled = true,
+  onToggleAscii,
+  onToggleTheme,
+}) {
   const [query, setQuery] = useState('')
   const [index, setIndex] = useState(0)
+  const [copied, setCopied] = useState(false)
   const inputRef = useRef(null)
+  const copyTimerRef = useRef(0)
 
   useEffect(() => {
     if (!open) return
     setQuery('')
     setIndex(0)
+    setCopied(false)
     const t = setTimeout(() => inputRef.current?.focus(), 60)
     return () => clearTimeout(t)
   }, [open])
+
+  useEffect(() => () => clearTimeout(copyTimerRef.current), [])
 
   useEffect(() => {
     if (!open) return
@@ -64,10 +76,43 @@ export default function CommandPalette({ open, onOpenChange }) {
       { id: 'linkedin', label: 'Open LinkedIn', hint: 'L', Icon: FaLinkedinIn, run: () => window.open(profile.linkedin, '_blank') },
       { id: 'email', label: `Email ${profile.email}`, hint: 'M', Icon: FaEnvelope, run: () => window.open(`mailto:${profile.email}`) },
       { id: 'X', label: `Open X`, hint: 'X', Icon: FaXTwitter, run: () => window.open(`https://x.com/Mahender_36`) },
-      { id: 'resume', label: 'Download resume', hint: 'PDF', Icon: FaArrowDown, run: () => { window.open(profile.resumeUrl, '_blank'); onOpenChange(false) } },
+      {
+        id: 'copy-email',
+        label: 'Copy email',
+        hint: copied ? 'Copied' : 'Copy',
+        Icon: HiOutlineEnvelope,
+        run: () => {
+          navigator.clipboard?.writeText(profile.email)?.then(() => {
+            setCopied(true)
+            clearTimeout(copyTimerRef.current)
+            copyTimerRef.current = setTimeout(() => setCopied(false), 1600)
+          })
+        },
+      },
+      {
+        id: 'ascii',
+        label: 'Toggle ASCII background',
+        hint: asciiEnabled ? 'On' : 'Off',
+        Icon: HiOutlineCodeBracket,
+        run: () => {
+          onToggleAscii?.()
+          onOpenChange(false)
+        },
+      },
+      {
+        id: 'theme',
+        label: 'Toggle theme',
+        hint: 'Theme',
+        Icon: HiOutlineMoon,
+        run: () => {
+          onToggleTheme?.()
+          onOpenChange(false)
+        },
+      },
+      { id: 'resume', label: 'Download résumé', hint: 'PDF', Icon: FaArrowDown, run: () => { window.open(profile.resumeUrl, '_blank'); onOpenChange(false) } },
       { id: 'top', label: 'Back to top', hint: 'Top', Icon: HiOutlineArrowUp, run: () => scrollToTop() },
     ],
-    [onOpenChange]
+    [asciiEnabled, copied, onOpenChange, onToggleAscii, onToggleTheme]
   )
 
   const filtered = useMemo(() => {

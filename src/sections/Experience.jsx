@@ -4,7 +4,10 @@ import { experiences } from '../constants/data'
 export default function Experience() {
   return (
     <section id="experience" className="w-full">
-      <h2 className="font-sans text-[28px] font-bold text-neutral-900">Experience</h2>
+      <h2 className="font-sans text-[28px] font-bold text-neutral-900">
+        <span className="mr-2 font-mono text-[11px] font-normal text-neutral-400">01 /</span>
+        Experience
+      </h2>
       <div className="mt-5 space-y-[24px]">
         {experiences.map((e) => (
           <div

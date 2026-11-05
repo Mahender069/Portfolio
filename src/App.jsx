@@ -13,6 +13,15 @@ import Footer from './sections/Footer'
 
 const THEME_COLOR = { dark: '#101010', light: '#F5F7FA' }
 
+function getInitialAscii() {
+  if (typeof window === 'undefined') return true
+  try {
+    return localStorage.getItem('ascii-hero') !== 'off'
+  } catch {
+    return true
+  }
+}
+
 function getInitialTheme() {
   if (typeof window === 'undefined') return 'dark'
   const stored = localStorage.getItem('theme')
@@ -33,10 +42,21 @@ function syncTheme(theme) {
 export default function App() {
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [theme, setThemeState] = useState(getInitialTheme)
+  const [asciiEnabled, setAsciiEnabled] = useState(getInitialAscii)
 
   useEffect(() => {
     syncTheme(theme)
   }, [theme])
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('ascii-hero', asciiEnabled ? 'on' : 'off')
+    } catch {}
+  }, [asciiEnabled])
+
+  const toggleAscii = useCallback(() => {
+    setAsciiEnabled((value) => !value)
+  }, [])
 
   useEffect(() => {
     const onKey = (e) => {
@@ -127,14 +147,20 @@ export default function App() {
       <Dock onOpenPalette={() => setPaletteOpen(true)} onToggleTheme={toggleTheme} theme={theme} />
       <MainLayout>
         <main className="flex-1 w-full flex flex-col gap-12">
-          <Hero />
+          <Hero asciiEnabled={asciiEnabled} />
           <Experience />
           <Projects />
           <Skills />
         </main>
         <Footer />
       </MainLayout>
-      <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
+      <CommandPalette
+        open={paletteOpen}
+        onOpenChange={setPaletteOpen}
+        asciiEnabled={asciiEnabled}
+        onToggleAscii={toggleAscii}
+        onToggleTheme={toggleTheme}
+      />
     </>
   )
 }

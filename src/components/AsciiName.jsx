@@ -234,7 +234,7 @@ export default function AsciiName({
     function onThemeChange() {
       color = getComputedStyle(canvas).color
       colorCheck = performance.now()
-      if (staticMode()) drawStatic()
+      drawFrame(staticMode())
     }
 
     function onMediaChange() {
