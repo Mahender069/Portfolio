@@ -155,6 +155,7 @@ export default function CustomCursor() {
           position: 'fixed',
           pointerEvents: 'none',
           zIndex: 9998,
+          viewTransitionName: 'cursor',
           fontFamily: "'Geist Mono', monospace",
           fontSize: '10px',
           lineHeight: '14px',

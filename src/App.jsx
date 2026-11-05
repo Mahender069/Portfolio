@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { flushSync } from 'react-dom'
 import Dock from './components/Dock'
 import CommandPalette from './components/CommandPalette'
 import CustomCursor from './components/CustomCursor'
@@ -10,6 +11,8 @@ import Projects from './sections/Projects'
 import Skills from './sections/Skills'
 import Footer from './sections/Footer'
 
+const THEME_COLOR = { dark: '#101010', light: '#F5F7FA' }
+
 function getInitialTheme() {
   if (typeof window === 'undefined') return 'dark'
   const stored = localStorage.getItem('theme')
@@ -17,17 +20,22 @@ function getInitialTheme() {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
+function syncTheme(theme) {
+  const root = document.documentElement
+  root.setAttribute('data-theme', theme)
+  try {
+    localStorage.setItem('theme', theme)
+  } catch {}
+  const meta = document.querySelector('meta[name="theme-color"]')
+  if (meta) meta.setAttribute('content', THEME_COLOR[theme])
+}
+
 export default function App() {
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [theme, setThemeState] = useState(getInitialTheme)
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('theme', theme)
-    const meta = document.querySelector('meta[name="theme-color"]')
-    if (meta) {
-      meta.setAttribute('content', theme === 'dark' ? '#101010' : '#F5F7FA')
-    }
+    syncTheme(theme)
   }, [theme])
 
   useEffect(() => {
@@ -63,9 +71,55 @@ export default function App() {
     return () => document.removeEventListener('click', onClick)
   }, [])
 
-  const toggleTheme = useCallback(() => {
-    setThemeState((t) => (t === 'dark' ? 'light' : 'dark'))
-  }, [])
+  const toggleTheme = useCallback(
+    (event) => {
+      const next = theme === 'dark' ? 'light' : 'dark'
+      const root = document.documentElement
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const useTransition = document.startViewTransition && !reduce
+
+      if (!useTransition) {
+        root.classList.add('theme-vt')
+        flushSync(() => setThemeState(next))
+        syncTheme(next)
+        requestAnimationFrame(() => root.classList.remove('theme-vt'))
+        return
+      }
+
+      let x = window.innerWidth / 2
+      let y = window.innerHeight / 2
+      if (event && (event.detail > 0 || event.clientX || event.clientY)) {
+        x = event.clientX
+        y = event.clientY
+      } else if (event?.currentTarget?.getBoundingClientRect) {
+        const rect = event.currentTarget.getBoundingClientRect()
+        x = rect.left + rect.width / 2
+        y = rect.top + rect.height / 2
+      }
+
+      const radius = Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y)
+      )
+      root.style.setProperty('--vt-x', `${x}px`)
+      root.style.setProperty('--vt-y', `${y}px`)
+      root.style.setProperty('--vt-r', `${radius}px`)
+      root.classList.add('theme-vt')
+
+      const transition = document.startViewTransition(() => {
+        flushSync(() => setThemeState(next))
+        syncTheme(next)
+      })
+
+      transition.finished.finally(() => {
+        root.classList.remove('theme-vt')
+        root.style.removeProperty('--vt-x')
+        root.style.removeProperty('--vt-y')
+        root.style.removeProperty('--vt-r')
+      })
+    },
+    [theme]
+  )
 
   return (
     <>
