@@ -11,6 +11,7 @@ import Skills from './sections/Skills'
 import Footer from './sections/Footer'
 
 const THEME_COLOR = { dark: '#101010', light: '#F5F7FA' }
+const SITE_TITLE = 'Mahender — Backend & AI Engineer'
 
 function getInitialTheme() {
   if (typeof window === 'undefined') return 'dark'
@@ -25,8 +26,9 @@ function syncTheme(theme) {
   try {
     localStorage.setItem('theme', theme)
   } catch {}
-  const meta = document.querySelector('meta[name="theme-color"]')
-  if (meta) meta.setAttribute('content', THEME_COLOR[theme])
+  document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
+    meta.setAttribute('content', THEME_COLOR[theme])
+  })
 }
 
 export default function App() {
@@ -39,7 +41,7 @@ export default function App() {
   useEffect(() => {
     const handleVisibilityChange = () => {
       document.title =
-        document.visibilityState === 'hidden' ? "I'm waiting for you..." : 'Mahender'
+        document.visibilityState === 'hidden' ? "I'm waiting for you..." : SITE_TITLE
     }
     document.addEventListener('visibilitychange', handleVisibilityChange)
     handleVisibilityChange()

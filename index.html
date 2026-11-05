@@ -2,15 +2,26 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'%3E%3Crect x='6' y='8' width='52' height='48' rx='6' stroke='%23E8E5DF' stroke-width='4'/%3E%3Cpath d='M7 20H57' stroke='%23E8E5DF' stroke-width='4'/%3E%3Cpath d='M17 30L25 37L17 44' stroke='%23E8E5DF' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M31 44H44' stroke='%23E8E5DF' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E"
-    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#101010" />
-    <meta name="description" content="Mahender— Backend Developer & AI Engineer" />
-    <title>Mahender</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#F5F7FA" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#101010" media="(prefers-color-scheme: dark)" />
+    <meta name="description" content="I craft scalable backend systems and build intelligent AI-powered solutions that ship." />
+    <meta property="og:title" content="Mahender — Backend &amp; AI Engineer" />
+    <meta property="og:description" content="I craft scalable backend systems and build intelligent AI-powered solutions that ship." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://REPLACE-WITH-SITE-URL/" />
+    <meta property="og:image" content="https://REPLACE-WITH-SITE-URL/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mahender — Backend &amp; AI Engineer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mahender — Backend &amp; AI Engineer" />
+    <meta name="twitter:description" content="I craft scalable backend systems and build intelligent AI-powered solutions that ship." />
+    <meta name="twitter:image" content="https://REPLACE-WITH-SITE-URL/og.png" />
+    <title>Mahender — Backend &amp; AI Engineer</title>
   </head>
   <body>
     <script>
@@ -19,6 +30,9 @@
         try { t = localStorage.getItem('theme'); } catch(e) {}
         if (!t) { t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
         document.documentElement.setAttribute('data-theme', t);
+        var c = t === 'dark' ? '#101010' : '#F5F7FA';
+        var metas = document.querySelectorAll('meta[name="theme-color"]');
+        for (var i = 0; i < metas.length; i++) metas[i].setAttribute('content', c);
       })();
     </script>
     <div id="root"></div>
