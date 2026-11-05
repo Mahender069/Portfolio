@@ -196,6 +196,7 @@ body {
   [data-theme="dark"] .text-electric { color: var(--accent) !important; }
   [data-theme="dark"] .bg-electric { background-color: var(--accent) !important; }
   [data-theme="dark"] .hover\:text-electric:hover { color: var(--accent) !important; }
+  [data-theme="dark"] .cursor-coords { color: #a3a3a3 !important; }
 }
 
 [data-theme="dark"] .glass {
