@@ -5,7 +5,7 @@ import { FiSun, FiMoon } from 'react-icons/fi'
 import { profile } from '../constants/portfolio'
 import { scrollToId } from '../utils/scroll'
 
-export default function Dock({ onOpenPalette, onToggleTheme, theme }) {
+export default function Dock({ onToggleTheme, theme }) {
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState(profile.navigation[0].id)
   const [open, setOpen] = useState(false)
@@ -59,7 +59,7 @@ export default function Dock({ onOpenPalette, onToggleTheme, theme }) {
       className="fixed inset-x-0 top-0 z-[100]"
     >
       <div
-        className={`mx-auto flex w-full max-w-[800px] items-center justify-between gap-4 px-4 py-3 sm:gap-6 sm:px-6 sm:py-4 transition-all duration-300 ${
+        className={`mx-auto grid w-full max-w-[800px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-3 sm:gap-6 sm:px-6 sm:py-4 transition-all duration-300 ${
           scrolled
             ? 'border-b border-neutral-200/60 bg-white/70 shadow-sm backdrop-blur-xl'
             : 'border-b border-transparent bg-transparent'
@@ -69,7 +69,7 @@ export default function Dock({ onOpenPalette, onToggleTheme, theme }) {
           type="button"
           aria-label={open ? 'Close menu' : 'Open menu'}
           onClick={() => setOpen(!open)}
-          className="rounded-full border border-neutral-200 bg-neutral-50 p-1.5 text-neutral-500 hover:border-neutral-300 hover:bg-neutral-100 md:hidden"
+          className="col-start-1 justify-self-start rounded-full border border-neutral-200 bg-neutral-50 p-1.5 text-neutral-500 hover:border-neutral-300 hover:bg-neutral-100 md:hidden"
         >
           {open ? (
             <HiOutlineXMark className="h-4 w-4" />
@@ -78,7 +78,7 @@ export default function Dock({ onOpenPalette, onToggleTheme, theme }) {
           )}
         </button>
 
-        <nav className="hidden flex-1 items-center justify-center gap-7 md:flex" aria-label="Primary">
+        <nav className="hidden items-center justify-center gap-7 md:col-start-2 md:flex" aria-label="Primary">
           {profile.navigation.map((item) => (
             <motion.button
               key={item.id}
@@ -94,24 +94,12 @@ export default function Dock({ onOpenPalette, onToggleTheme, theme }) {
           ))}
         </nav>
 
-<motion.button
-           initial={{ opacity: 0, y: -8 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.3, delay: 0.05 }}
-           onClick={onOpenPalette}
-            className="flex items-center gap-1.5 rounded-full border border-neutral-200 bg-neutral-50 px-2 py-1 font-mono text-[10px] text-neutral-500 hover:border-neutral-300 hover:bg-neutral-100 sm:px-2.5 sm:py-1.5 sm:text-[11px]"
-           aria-label="Open command palette"
-         >
-           <HiOutlineCommandLine className="h-3.5 w-3.5 text-[var(--accent)]" />
-           <span>⌘K</span>
-         </motion.button>
-
         <motion.button
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.08 }}
           onClick={onToggleTheme}
-          className="flex items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 p-1.5 text-neutral-500 hover:border-neutral-300 hover:bg-neutral-100"
+          className="col-start-3 flex items-center justify-center justify-self-end rounded-full border border-neutral-200 bg-neutral-50 p-1.5 text-neutral-500 hover:border-neutral-300 hover:bg-neutral-100"
           aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
         >
           {theme === 'dark' ? (

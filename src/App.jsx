@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { flushSync } from 'react-dom'
 import Dock from './components/Dock'
-import CommandPalette from './components/CommandPalette'
 import CustomCursor from './components/CustomCursor'
 import MainLayout from './layouts/MainLayout'
 import { playWaterDrop } from './utils/clickSound'
@@ -12,15 +11,6 @@ import Skills from './sections/Skills'
 import Footer from './sections/Footer'
 
 const THEME_COLOR = { dark: '#101010', light: '#F5F7FA' }
-
-function getInitialAscii() {
-  if (typeof window === 'undefined') return true
-  try {
-    return localStorage.getItem('ascii-hero') !== 'off'
-  } catch {
-    return true
-  }
-}
 
 function getInitialTheme() {
   if (typeof window === 'undefined') return 'dark'
@@ -40,34 +30,11 @@ function syncTheme(theme) {
 }
 
 export default function App() {
-  const [paletteOpen, setPaletteOpen] = useState(false)
   const [theme, setThemeState] = useState(getInitialTheme)
-  const [asciiEnabled, setAsciiEnabled] = useState(getInitialAscii)
 
   useEffect(() => {
     syncTheme(theme)
   }, [theme])
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('ascii-hero', asciiEnabled ? 'on' : 'off')
-    } catch {}
-  }, [asciiEnabled])
-
-  const toggleAscii = useCallback(() => {
-    setAsciiEnabled((value) => !value)
-  }, [])
-
-  useEffect(() => {
-    const onKey = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault()
-        setPaletteOpen((o) => !o)
-      }
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [])
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -96,7 +63,11 @@ export default function App() {
       const next = theme === 'dark' ? 'light' : 'dark'
       const root = document.documentElement
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      const useTransition = document.startViewTransition && !reduce
+      const rect = event?.currentTarget?.getBoundingClientRect?.()
+      const fromPointer = Boolean(event && (event.detail > 0 || event.clientX || event.clientY))
+      const x = fromPointer ? event.clientX : rect ? rect.left + rect.width / 2 : null
+      const y = fromPointer ? event.clientY : rect ? rect.top + rect.height / 2 : null
+      const useTransition = document.startViewTransition && !reduce && x !== null
 
       if (!useTransition) {
         root.classList.add('theme-vt')
@@ -104,17 +75,6 @@ export default function App() {
         syncTheme(next)
         requestAnimationFrame(() => root.classList.remove('theme-vt'))
         return
-      }
-
-      let x = window.innerWidth / 2
-      let y = window.innerHeight / 2
-      if (event && (event.detail > 0 || event.clientX || event.clientY)) {
-        x = event.clientX
-        y = event.clientY
-      } else if (event?.currentTarget?.getBoundingClientRect) {
-        const rect = event.currentTarget.getBoundingClientRect()
-        x = rect.left + rect.width / 2
-        y = rect.top + rect.height / 2
       }
 
       const radius = Math.hypot(
@@ -144,23 +104,16 @@ export default function App() {
   return (
     <>
       <CustomCursor />
-      <Dock onOpenPalette={() => setPaletteOpen(true)} onToggleTheme={toggleTheme} theme={theme} />
+      <Dock onToggleTheme={toggleTheme} theme={theme} />
       <MainLayout>
         <main className="flex-1 w-full flex flex-col gap-12">
-          <Hero asciiEnabled={asciiEnabled} />
+          <Hero />
           <Experience />
           <Projects />
           <Skills />
         </main>
         <Footer />
       </MainLayout>
-      <CommandPalette
-        open={paletteOpen}
-        onOpenChange={setPaletteOpen}
-        asciiEnabled={asciiEnabled}
-        onToggleAscii={toggleAscii}
-        onToggleTheme={toggleTheme}
-      />
     </>
   )
 }
