@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <path d="M2 2 L2.4 20.5 L7 16.2 L10 22.8 L13.1 21.4 L10.2 15 L16.8 14.6 Z" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
-  <path d="M2 2 L2.4 20.5 L7 16.2 L10 22.8 L13.1 21.4 L10.2 15 L16.8 14.6 Z" fill="#111"/>
+  <defs>
+    <filter id="s" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1"/></filter>
+    <path id="a" d="M6 4 L24 14 L14 18.5 L9 26 Z"/>
+  </defs>
+  <use href="#a" transform="translate(1.5 2)" fill="#000" stroke="#000" stroke-width="2.5" stroke-linejoin="round" opacity=".22" filter="url(#s)"/>
+  <use href="#a" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+  <use href="#a" fill="#111" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>
 </svg>

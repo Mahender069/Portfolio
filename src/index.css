@@ -94,7 +94,7 @@ body {
 
 @media (hover: hover) and (pointer: fine) {
   html {
-    cursor: url("/cursors/default.svg") 2 2, auto;
+    cursor: url("/cursors/default.svg") 6 4, auto;
   }
 
   a,
@@ -104,7 +104,7 @@ body {
   label[for],
   select,
   [data-cursor] {
-    cursor: url("/cursors/link.svg") 16 16, pointer;
+    cursor: url("/cursors/link.svg") 13 3, pointer;
   }
 
   a *,
