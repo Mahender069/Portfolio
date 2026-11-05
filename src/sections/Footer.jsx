@@ -1,4 +1,5 @@
 import VisitorCounter from '../components/VisitorCounter'
+import useVisitorCount from '../hooks/useVisitorCount'
 import { FaEnvelope, FaGithub, FaHeart, FaLinkedinIn } from 'react-icons/fa6'
 import { FaXTwitter } from 'react-icons/fa6'
 import { HiOutlineArrowUpRight } from 'react-icons/hi2'
@@ -7,6 +8,8 @@ import { scrollToId, scrollToTop } from '../utils/scroll'
 
 export default function Footer() {
   const year = new Date().getFullYear()
+  const visitor = useVisitorCount()
+  const latency = visitor.error ? 'offline' : visitor.rtt == null ? '—' : `${visitor.rtt}ms`
 
   return (
     <>
@@ -20,7 +23,11 @@ export default function Footer() {
           }}
         />
 
-        <VisitorCounter />
+        <VisitorCounter
+          count={visitor.count}
+          loading={visitor.loading}
+          error={visitor.error}
+        />
 
         <div className="relative animate-fade-up">
           <h2 className="font-sans text-[24px] font-bold leading-[1.2] text-neutral-900 sm:text-[28px]">
@@ -74,6 +81,10 @@ export default function Footer() {
           <span className="inline-flex items-center gap-1">
             <FaHeart className="h-2.5 w-2.5 text-neutral-500 animate-bounce-once" /> Built with love
           </span>
+        </p>
+
+        <p className="mt-3 font-mono text-[11px] text-neutral-500 opacity-40">
+          build {__COMMIT__} · {__BUILT__.slice(0, 10)} · visitors fn {latency}
         </p>
 
         <div className="mt-4 flex flex-wrap justify-center gap-4 text-[10px] font-sans uppercase text-neutral-500 animate-fade-up stagger-3">

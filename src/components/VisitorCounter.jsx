@@ -1,12 +1,8 @@
-import useVisitorCount from '../hooks/useVisitorCount'
-
 function pad(n) {
   return String(n).padStart(3, '0')
 }
 
-export default function VisitorCounter() {
-  const { count, loading, error } = useVisitorCount()
-
+export default function VisitorCounter({ count = null, loading = true, error = false }) {
   if (error) return null
 
   const isLoading = loading || count === null
