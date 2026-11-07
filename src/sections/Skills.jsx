@@ -3,19 +3,18 @@ import TechStack from '../components/TechStack'
 
 export default function Skills() {
   return (
-    <section id="skills" className="w-full">
-      <h2 className="font-sans text-title font-bold text-neutral-900">
-        <span className="mr-2 font-mono text-meta font-normal text-metadata">03 /</span>
+    <section id="skills" aria-labelledby="skills-heading" className="w-full">
+      <h2 id="skills-heading" className="font-sans text-title font-bold text-neutral-900">
         Skills
       </h2>
-      <div className="mt-5 space-y-6 sm:mt-6 sm:space-y-7">
+      <div className="mt-5 space-y-6">
         {skillCategories.map((c) => (
           <div key={c.name}>
-            <h3 className="font-sans text-item font-bold uppercase text-neutral-900">
+            <h3 className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--foreground-muted)]">
               {c.name}
             </h3>
-            <div className="mt-2.5 flex flex-wrap gap-1.5">
-              <TechStack items={c.skills} />
+            <div className="mt-2">
+              <TechStack items={c.skills} variant="skill" />
             </div>
           </div>
         ))}

@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from 'react'
 import { flushSync } from 'react-dom'
 import Dock from './components/Dock'
-import CursorCoords from './components/CursorCoords'
 import MainLayout from './layouts/MainLayout'
 import { playWaterDrop } from './utils/clickSound'
 import Hero from './sections/Hero'
 import Experience from './sections/Experience'
 import Projects from './sections/Projects'
 import Skills from './sections/Skills'
+import Contact from './sections/Contact'
 import Footer from './sections/Footer'
 
 const THEME_COLOR = { dark: '#101010', light: '#F5F7FA' }
@@ -52,6 +52,7 @@ export default function App() {
 
   useEffect(() => {
     const onClick = (e) => {
+      if (!e.isTrusted) return
       if (e.target && e.target.closest('a, button, [role="button"], input, select, textarea')) {
         playWaterDrop()
       }
@@ -106,13 +107,13 @@ export default function App() {
   return (
     <>
       <Dock onToggleTheme={toggleTheme} theme={theme} />
-      <CursorCoords />
       <MainLayout>
-        <main className="flex-1 w-full flex flex-col gap-12">
+        <main className="flex w-full flex-1 flex-col gap-12 md:gap-16">
           <Hero />
           <Experience />
           <Projects />
           <Skills />
+          <Contact />
         </main>
         <Footer />
       </MainLayout>

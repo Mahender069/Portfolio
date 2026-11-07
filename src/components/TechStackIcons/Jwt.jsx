@@ -1,7 +1,7 @@
 export default function JwtIcon(props) {
   return (
     <svg viewBox="0 0 2500 1250" preserveAspectRatio="xMidYMid" {...props}>
-      <g clip-rule="evenodd" fill-rule="evenodd">
+      <g clipRule="evenodd" fillRule="evenodd">
         <path d="m0 0h2500v1250h-2500z" fill="currentColor"></path>
         <path d="m673.8 479.4-.6-168.1h-93.8l.6 168.1 46.9 64.4zm-93.8 288.1v168.7h93.8v-168.7l-46.9-64.4z" fill="#fff"></path>
         <path d="m673.8 767.5 98.8 136.3 75.6-55-98.8-136.3-75.6-24.4zm-93.8-288.1-99.4-136.3-75.6 55 98.8 136.2 76.2 24.4z" fill="#00f2e6"></path>

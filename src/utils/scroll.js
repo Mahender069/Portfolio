@@ -4,10 +4,6 @@ export function setLenis(lenis) {
   lenisInstance = lenis
 }
 
-export function getLenis() {
-  return lenisInstance
-}
-
 export function scrollToId(id, offset = 0) {
   const el = document.getElementById(id)
   if (!el) return

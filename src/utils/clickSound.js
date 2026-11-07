@@ -3,7 +3,7 @@ let lastPlay = 0
 
 function ensureCtx() {
   if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)()
-  if (ctx.state === 'suspended') ctx.resume()
+  if (ctx.state === 'suspended') ctx.resume().catch(() => {})
   return ctx
 }
 
@@ -37,11 +37,5 @@ export function playWaterDrop() {
     osc.connect(filter).connect(gain).connect(c.destination)
     osc.start(t)
     osc.stop(t + dur)
-  } catch {}
-}
-
-export function preloadClickSound() {
-  try {
-    ensureCtx()
   } catch {}
 }
