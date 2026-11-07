@@ -11,7 +11,7 @@ import Contact from './sections/Contact'
 import Footer from './sections/Footer'
 
 const THEME_COLOR = { dark: '#101010', light: '#F5F7FA' }
-const SITE_TITLE = 'Mahender — Backend & AI Engineer'
+const SITE_TITLE = 'Mahender'
 
 function getInitialTheme() {
   if (typeof window === 'undefined') return 'dark'
