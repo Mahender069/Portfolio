@@ -3,7 +3,6 @@ export const profile = {
   initials: 'M',
   image: '/profile.jpg',
   subtitle: 'Backend Developer & AI Engineer',
-  status: { label: 'Open to new opportunities', online: true },
   tagline:
     'I craft scalable backend systems and build intelligent AI-powered solutions that ship.',
   email: 'tnmahender@gmail.com',

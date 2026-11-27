@@ -49,7 +49,7 @@ export default function Contact() {
         Contact
       </h2>
       <p className="mt-4 max-w-xl font-sans text-body text-[var(--foreground-secondary)]">
-        {profile.status.label}. Let&apos;s Build Something Together.
+        Let&apos;s Build Something Together.
       </p>
 
       <div className="mt-5 flex flex-wrap items-center gap-2">

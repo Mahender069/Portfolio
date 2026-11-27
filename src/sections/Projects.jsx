@@ -12,7 +12,7 @@ export default function Projects() {
       <h2 id="projects-heading" className="font-sans text-title font-bold text-neutral-900">
         Projects
       </h2>
-      <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
+      <div className="mt-5 grid auto-rows-fr grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
         {projects.map((p) => (
           <article
             key={p.id}

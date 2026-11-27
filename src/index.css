@@ -154,21 +154,8 @@ body {
     40% { transform: translateY(-4px); }
     100% { transform: translateY(0); }
   }
-  @keyframes status-pulse {
-    0%, 100% {
-      box-shadow:
-        0 0 0 0 color-mix(in srgb, var(--online) 40%, transparent),
-        0 0 6px color-mix(in srgb, var(--online) 35%, transparent);
-    }
-    50% {
-      box-shadow:
-        0 0 0 4px color-mix(in srgb, var(--online) 0%, transparent),
-        0 0 10px color-mix(in srgb, var(--online) 55%, transparent);
-    }
-  }
   .animate-fade-up { animation: fade-up 0.6s ease-out forwards; }
   .animate-bounce-once { animation: bounce-once 0.5s ease-in-out 1; }
-  .animate-status-pulse { animation: status-pulse 2s ease-in-out infinite; }
   .stagger-1 { animation-delay: 0.1s; }
   .stagger-2 { animation-delay: 0.2s; }
   .stagger-3 { animation-delay: 0.3s; }
@@ -313,10 +300,6 @@ html.theme-vt *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-  .animate-status-pulse {
-    animation: none;
-    box-shadow: none;
   }
   .project-card:hover {
     transform: none;

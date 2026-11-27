@@ -111,17 +111,7 @@ export default function Hero() {
         {profile.tagline}
       </p>
 
-      <div className="mt-3 flex items-center gap-2 font-mono text-meta text-metadata sm:gap-2.5">
-        <span
-          aria-hidden="true"
-          className={`h-1.5 w-1.5 rounded-full ${
-            profile.status.online ? 'animate-status-pulse bg-[var(--online)]' : 'bg-neutral-600'
-          }`}
-        />
-        <span>{profile.status.label}</span>
-      </div>
-
-      <div className="mt-5 flex flex-wrap items-center gap-2">
+      <div className="mt-3 flex flex-wrap items-center gap-2">
         <a
           href={`mailto:${profile.email}`}
           className="font-sans text-body text-[var(--foreground-secondary)] underline-offset-4 hover:text-[var(--foreground)] hover:underline"
